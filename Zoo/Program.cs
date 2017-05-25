@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Zoo.Animals;
 using Zoo.Command;
@@ -21,8 +22,14 @@ namespace Zoo
 			zooAnimals.Add(new Fox("red"));
 
 
-			
 
+			//CommonUtil.Run(() =>
+			//{
+			//	ChangeState(zooAnimals);
+			//}, TimeSpan.FromMilliseconds(5000));
+
+
+			new Timer((Object stateInfo) => { ChangeState(zooAnimals); }, new AutoResetEvent(false), 0, 10000);
 
 
 			while (zooAnimals.Count > 0)
@@ -72,6 +79,37 @@ namespace Zoo
 
 		}
 
-		
+		private static void ChangeState(List<Animal> zooAnimals)
+		{
+			int n = new Random().Next(0, zooAnimals.Count);
+			var animal = zooAnimals[n];
+
+			switch (animal.State)
+			{
+				case AnimalState.Satisfied:
+					{
+						animal.State = AnimalState.Hungry;
+						break;
+					}
+				case AnimalState.Hungry:
+					{
+						animal.State = AnimalState.Patient;
+						break;
+					}
+				case AnimalState.Patient:
+					{
+						if (animal.Health > 0)
+						{
+							animal.Health--;
+							break;
+
+						}
+						break;
+					}
+				default:
+					break;
+			}
+		}
+
 	}
 }
