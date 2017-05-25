@@ -11,7 +11,17 @@ namespace Zoo.Command
 	{
 		string Execute();
 	}
+	class IncorrectCmd:ICommand
+	{
+		#region ICommand Members
 
+		public string Execute()
+		{
+			return "Incorrect command";
+		}
+
+		#endregion
+	}
 	class AddCmd:ICommand
 	{
 		private string aAlias;
@@ -31,11 +41,19 @@ namespace Zoo.Command
 		{
 			var animal = zooAnimals.Where(a => a.Alias == aAlias).FirstOrDefault();
 
-			if (animal!=null)
+			if (animal != null)
+			{
 				return "Animal with this name already exist!";
-			else 
-				zooAnimals.Add(AnimalFactory.GetAnimal(aType, aAlias));
-			return "Animal added to zoo!";
+			}
+			else
+			{
+				if (aType!=AnimalType.Incorrect)
+				{
+					zooAnimals.Add(AnimalFactory.GetAnimal(aType, aAlias));
+					return "Animal added to zoo!";
+				}
+				return "Incorrect animal type";
+			}
 		}
 
 	}
@@ -93,7 +111,7 @@ namespace Zoo.Command
 			}
 			else
 			{
-				return "Animal is alive!";
+				return "Animal is alive or does not exist!";
 			}
 		}
 
@@ -118,8 +136,8 @@ namespace Zoo.Command
 			var animal = zooAnimals.Where(a => a.Alias == aAlias).FirstOrDefault();
 			if (animal != null && animal.State != AnimalState.Dead)
 			{
-				animal.State = AnimalState.Patient;
-				return "Animal removed";
+				animal.State = AnimalState.Satisfied;
+				return "Animal is satisfied";
 			}
 			else
 			{

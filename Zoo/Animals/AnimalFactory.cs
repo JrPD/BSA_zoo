@@ -32,6 +32,7 @@ namespace Zoo.Animals
 
 	enum AnimalType
 	{
+		Incorrect,
 		Lion,
 		Tiger,
 		Elephant,
