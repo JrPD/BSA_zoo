@@ -6,12 +6,9 @@ using System.Threading.Tasks;
 
 namespace Zoo.Animals
 {
-	interface IAnimal
-	{
-		void Eat();
-	}
 
-	class Animal:IAnimal
+
+	class Animal
 	{
 		public Animal(string alias)
 		{
@@ -25,14 +22,9 @@ namespace Zoo.Animals
 		public AnimalState State;
 
 		public string Alias { get; set; }
-		#region IAnimal Members
 
-		public void Eat()
-		{
-			Console.WriteLine(Alias+" eaten...");
-		}
-
-		#endregion
+		public AnimalType AnimalType { get; set; }
+	
 	}
 
 	enum AnimalState

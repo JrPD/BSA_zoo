@@ -13,6 +13,7 @@ namespace Zoo.Animals
 		 {
 			 MaxHealth = 5;
 			 Health = MaxHealth;
+			 AnimalType = AnimalType.Lion;
 		 }
 	}
 	 class Tiger:Animal
@@ -22,6 +23,7 @@ namespace Zoo.Animals
 		 {
 			 MaxHealth = 4;
 			 Health = MaxHealth;
+			 AnimalType = AnimalType.Tiger;
 		 }
 	 }
 	 class Elephant:Animal
@@ -31,6 +33,7 @@ namespace Zoo.Animals
 		 {
 			 MaxHealth = 7;
 			 Health = MaxHealth;
+			 AnimalType = AnimalType.Elephant;
 		 }
 	 }
 	 class Bear:Animal
@@ -40,6 +43,7 @@ namespace Zoo.Animals
 		 {
 			 MaxHealth = 6;
 			 Health = MaxHealth;
+			 AnimalType = AnimalType.Bear;
 		 }
 	 }
 
@@ -50,6 +54,7 @@ namespace Zoo.Animals
 		 {
 			 MaxHealth = 4;
 			 Health = MaxHealth;
+			 AnimalType = AnimalType.Wolf;
 		 }
 	 }
 	 class Fox : Animal
@@ -59,6 +64,7 @@ namespace Zoo.Animals
 		 {
 			 MaxHealth = 3;
 			 Health = MaxHealth;
+			 AnimalType = AnimalType.Fox;
 		 }
 	 }
 

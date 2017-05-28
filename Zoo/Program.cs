@@ -13,68 +13,87 @@ namespace Zoo
 	{
 		static void Main(string[] args)
 		{
-			List<Animal> zooAnimals = new List<Animal>();
-			zooAnimals.Add(new Lion("leo") { Health=1});
-			zooAnimals.Add(new Tiger("timur"));
-			zooAnimals.Add(new Elephant("slo"));
-			zooAnimals.Add(new Bear("white"));
-			zooAnimals.Add(new Wolf("seryj"));
-			zooAnimals.Add(new Fox("red"));
-
-			bool allDead = false;
-			new Timer((Object stateInfo) => { ChangeState(zooAnimals, ref allDead); }, new AutoResetEvent(false), 0, 5000);
-
-			Console.WriteLine("Commands:");
-			Console.WriteLine("Create(animal Type, animalAlias)");
-			Console.WriteLine("Feed(animalAlias)");
-			Console.WriteLine("Treat(animalAlias)");
-			Console.WriteLine("Remove(animalAlias)");
-			Console.WriteLine();
-			while (zooAnimals.Count > 0 && allDead == false)
-			{
-
-				Console.Write("Enter a command: ");
-
-				string cName = string.Empty;
-				string aType = string.Empty;
-				string aAlias = string.Empty;
+			var repo = new ZooRepo();
 
 
-				string command = Console.ReadLine();
+			var animals = repo.GetAnimals();
+			LinqQueries(animals);
+			
+			var zooAnimals = repo.GetAnimals().Where(a => a.AnimalType == AnimalType.Lion).ToList();
 
-				var parts = command.Split(new char[] { '(', ')', ',' }).Where(s => !string.IsNullOrWhiteSpace(s)).Distinct().ToList();
+			//bool allDead = false;
+			//new Timer((Object stateInfo) => { ChangeState(zooAnimals, ref allDead); }, new AutoResetEvent(false), 0, 5000);
+
+			//Console.WriteLine("Commands:");
+			//Console.WriteLine("Create(animal Type, animalAlias)");
+			//Console.WriteLine("Feed(animalAlias)");
+			//Console.WriteLine("Treat(animalAlias)");
+			//Console.WriteLine("Remove(animalAlias)");
+			//Console.WriteLine();
+
+			//while (zooAnimals.Count > 0 && allDead == false)
+			//{
+
+			//	Console.Write("Enter a command: ");
+
+			//	string cName = string.Empty;
+			//	string aType = string.Empty;
+			//	string aAlias = string.Empty;
+
+
+			//	string command = Console.ReadLine();
+
+			//	var parts = command.Split(new char[] { '(', ')', ',' }).Where(s => !string.IsNullOrWhiteSpace(s)).Distinct().ToList();
 				
-				if (parts.Count<2 || parts.Count>3)
-				{
-					Console.WriteLine("Incorrect input");
-					continue;
-				}
-				else
-				{
-					cName = parts[0];
-					if (parts.Count==3)
-					{
-						aType = parts[1];
-						aAlias = parts[2];
-					}
-					else
-					{
-						aAlias = parts[1];
-					}
-				}
-				Commands cmdName;
-				Enum.TryParse(cName, true, out cmdName);
-				AnimalType type;
-				Enum.TryParse(aType, true, out type);
-				ICommand cmd = CommandFactory.GetCommand(cmdName, type, aAlias, zooAnimals);
-				Console.WriteLine(cmd.Execute()); 
+			//	if (parts.Count<2 || parts.Count>3)
+			//	{
+			//		Console.WriteLine("Incorrect input");
+			//		continue;
+			//	}
+			//	else
+			//	{
+			//		cName = parts[0];
+			//		if (parts.Count==3)
+			//		{
+			//			aType = parts[1];
+			//			aAlias = parts[2];
+			//		}
+			//		else
+			//		{
+			//			aAlias = parts[1];
+			//		}
+			//	}
+			//	Commands cmdName;
+			//	Enum.TryParse(cName, true, out cmdName);
+			//	AnimalType type;
+			//	Enum.TryParse(aType, true, out type);
+			//	ICommand cmd = CommandFactory.GetCommand(cmdName, type, aAlias, zooAnimals);
+			//	Console.WriteLine(cmd.Execute()); 
 
-			 }
-			Console.WriteLine("All animals dead!");
-
+			// }
+			//Console.WriteLine("All animals dead!");
+			Console.ReadLine();
 		}
 
-		private static void ChangeState(List<Animal> zooAnimals, ref bool dead)
+		private static void LinqQueries(IEnumerable<Animal> animals)
+		{
+
+			ShowResult(animals.Where(a=>a.AnimalType == AnimalType.Lion).Where(a=>a.State==AnimalState.Patient));
+
+			
+		}
+
+		private static void ShowResult(IEnumerable<Animal> animals)
+		{
+			foreach (var item in animals)
+			{
+				Console.WriteLine(string.Format("{0},{1}", item.AnimalType.ToString(), item.Alias));
+			}
+		}
+
+		
+
+		public  static void ChangeState(List<Animal> zooAnimals, ref bool dead)
 		{
 			foreach (var item in zooAnimals)
 			{

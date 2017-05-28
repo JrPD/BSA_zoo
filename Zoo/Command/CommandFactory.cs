@@ -10,7 +10,7 @@ namespace Zoo.Command
 	{
 		internal static ICommand GetCommand(Commands cmdName, Animals.AnimalType aType, string aAlias, List<Animals.Animal> zooAnimals)
 		{
-			if (aType != null && aType != Animals.AnimalType.Incorrect)
+			if (aType != Animals.AnimalType.Incorrect)
 			{
 				return new AddCmd(aType, aAlias, zooAnimals);
 			}
